@@ -120,7 +120,7 @@ class MyScene (Scene):
 		center = self.bounds.center()
 		self.cellsize=55 if self.device else 35
 		self.bordersize=3 if self.device else 2
-		self.offsetx=(self.bounds.w-(self.cellsize*9+self.bordersize*2))/2
+		self.offsetx=(self.bounds.w-(self.cellsize*9+self.bordersize*2))/2+self.bordersize
 		self.offsety=400 if self.device else 200
 		self.currentDigit=1
 		self.mode=1
@@ -162,11 +162,12 @@ class MyScene (Scene):
 		else: digit=x+1
 		px=self.offsetx+self.cellsize*(x+0.5)
 		py=self.offsety+self.cellsize*(y+0.5)
+		mg=18 if self.device else 12
 		if (self.mode==2 and y<0) or (self.puzzle.getDigitType(x,y)==2 and y>=0):
 			cs=0.3*self.cellsize
 			v=set([digit]) if y<0 else self.puzzle.getCandidates(x,y)
 			for i in v:
-				text(str(i),fnt,cs,px+18*((i-1)%3)-18,py-18*((i-1)/3)+18)
+				text(str(i),fnt,cs,px+mg*((i-1)%3)-mg,py-mg*((i-1)/3)+mg)
 		else: 
 			cs=0.8*self.cellsize
 			if digit:text(str(digit),fnt,cs,px,py)
@@ -219,7 +220,7 @@ class MyScene (Scene):
 			if i in [3,6]: 
 				stroke(0,0,0) 
 				stroke_weight(3)
-			else: 
+			else:
 				stroke(0.3,0.3,0.3) 
 				stroke_weight(1)
 			cum=i*self.cellsize
@@ -254,5 +255,3 @@ class MyScene (Scene):
 		self.puzzle.setDigit(int(x),int(y),self.currentDigit,self.mode)
 
 run(MyScene())
-
-
